@@ -1,0 +1,24 @@
+@import './reset.scss' ;
+
+body{
+    background: yellow;
+}
+
+.container{
+    padding: 12px;
+    font-size: 30px;
+    font-weight: bold;
+    color: green;
+}
+
+@media screen  and (min-aspect-ratio:4/3){
+    body{
+        background: red;
+
+        .container{
+             font-size: 40px;
+        }
+
+    }
+	
+}
