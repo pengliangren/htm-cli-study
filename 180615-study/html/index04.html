@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <title>CSS3饼状loading</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body ontouchstart="">
+  <div class="wrap">
+    <div class="outer"></div>
+    <div class="inner">
+      <div class="spiner"></div>
+      <div class="filler"></div>
+      <div class="masker"></div>
+    </div>
+    <div class="inner2">
+      <div class="spiner"></div>
+      <div class="filler"></div>
+      <div class="masker"></div>
+    </div>
+
+    <svg width="440" height="440" viewbox="0 0 440 440">
+      <circle cx="220" cy="220" r="170" stroke-width="50" stroke="#D1D3D7" fill="none"></circle>
+      <circle cx="220" cy="220" r="170" stroke-width="50" stroke="#00A5E0" fill="none" transform="matrix(0,-1,1,0,0,440)" stroke-dasharray="0 1069"></circle>
+  </svg>
+  <p>拖我：<input id="range" type="range" min="0" max="100" value="0" style="width:300px;"></p>
+  </div>
+
+    <script>
+      
+      if (window.addEventListener) {
+          var range = document.querySelector("#range"), circle = document.querySelectorAll("circle")[1];
+          if (range && circle) {
+              range.addEventListener("change", function() {
+                  var percent = this.value / 100, perimeter = Math.PI * 2 * 170;
+                  circle.setAttribute('stroke-dasharray', perimeter * percent + " " + perimeter * (1- percent));
+              });
+          }
+      }
+    </script>
+
+</body>
+</html>

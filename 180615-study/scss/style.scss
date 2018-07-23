@@ -1,7 +1,7 @@
 @import './reset.scss' ;
 
 body{
-    background: yellow;
+    // background: yellow;
 }
 
 .container{
@@ -20,5 +20,245 @@ body{
         }
 
     }
-	
+}
+
+.box{
+    position: relative;
+    width: 100%;
+    height: 150px;
+    // background: linear-gradient(90deg, #ffc700 0%,#e91e1e 100%);   //线性渐变是不支持动画的
+    background: #ffc700;
+    animation: gradientChange 2s infinite linear alternate;
+}
+
+@keyframes gradientChange{
+    100%{
+        // background: linear-gradient(90deg, #e91e1e 0%, #6f27b0 100%);
+        background: #e91e1e;
+    }
+}
+
+
+// 可以通过background-position 模拟渐变动画
+.box2{
+    position: relative;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(90deg, #ffc700 0% , #e91e1e 50%, #6f27b0 100%);
+    background-size: 200% 100%;
+    background-position: 0 0;
+    animation: bgposition 3s infinite linear alternate;
+}
+
+@keyframes bgposition{
+    0%{
+        background-position: 0 0;
+    }
+    100%{
+        background-position: 100% 0;
+    }
+}
+
+
+// 可以通过background-size 模拟渐变动画
+.box3{
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+    background-position:100%  0%;
+    animation: bgSize 5s infinite ease-in-out alternate;
+}
+
+@keyframes bgSize{
+    0%{
+        background-size: 300% 200%;
+    }
+    100%{
+        background-size: 100% 100%;
+    }
+}
+
+
+// 通过 transform  模拟渐变动画
+//上面两种方式虽然都可以实现，但是总感觉不够自由，或者随机性不够大。
+//不仅如此，上述两种方式，由于使用了 background-position 和 background-size，并且在渐变中改变这两个属性，
+//导致页面不断地进行大量的重绘（repaint），对页面性能消耗非常严重，所以我们还可以试试 transfrom 的方法：
+//使用伪元素配合 transform 进行渐变动画，通过元素的伪元素 before 或者 after ，在元素内部画出一个大背景，
+//再通过 transform 对伪元素进行变换：
+
+.box4{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 150px;
+    margin:  10px 0 0 0;
+
+    &::after{
+        content: '';
+        position: absolute;
+        display: block;
+        top: -100%;
+        left: -100%;
+        bottom: -100%;
+        right: -100%;
+        // background: linear-gradient(45deg,  #ffc700 0%, #e91e1e 50%, #6f27b0 100%);
+        background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+        background-size: 100% 100%;
+        animation: bgposition2 8s infinite linear alternate;
+        z-index: -1;
+    }
+}
+
+@keyframes bgposition2{
+    0% {
+        transform: translate(30%, 30%);
+    }
+    25% {
+        transform: translate(30%, -30%);
+    }
+    50% {
+        transform: translate(-30%, -30%);
+    }
+    75% {
+        transform: translate(-30%, 30%);
+    }
+    100% {
+        transform: translate(30%, 30%);
+    }
+}
+
+
+// 背景色渐变过渡实现按钮的明暗变化
+.btn{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100px;
+    margin:  10px 0 0 0; 
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 100px;
+    cursor: pointer;
+    background: linear-gradient(#024e8a 0%, #2d80c1 50%, #83c7fd 100%);
+    background-size: 100% 150%;
+    background-position: 0 0;
+    transition: all .3s;
+
+    &:hover {
+        background-position: 0 75%;
+    }
+    &:active {
+        background-position: 0 75%;
+    }
+}
+
+//background-clip :text && 按钮填充效果
+.button{
+     position: relative;
+    width: 200px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 36px;
+    line-height: 4.5rem;
+    color: deeppink;
+    background-color: transparent;
+    border: 3px solid deeppink;
+    cursor: pointer;
+    &:after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 50%;
+        height: 100%;
+        width: 0;
+        background-color: deeppink;
+        transition: width .5s, left .5s;
+    }
+    &:hover {
+        color: white;
+    }
+    &:hover:after {
+        top: 0;
+        left: 0;
+        width: 100%;
+        transition: width .5s, left .5s;
+    }
+}
+
+.rem-box{
+    font-size:0.5rem;
+    background: #00ff88;
+    line-height: 1rem;
+}
+
+
+.time-count-x{
+    line-height: 1.5;
+    position: relative;
+    background: #00ff88;
+    svg{
+        transform: rotate(-0.05deg);
+    }
+    circle{
+        transition:stroke-dasharray .2s;
+    }
+
+    .time-second{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        margin-top: -.75em;
+        text-align: center;
+        font-size: 100px;
+
+    }
+    .button{
+        width: 200px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        background: red;
+        color: #ffc700;
+    }
+}
+
+
+.wrap { width: 200px; height: 200px; position: relative; }
+.outer { position: absolute; width: 100%; height: 100%; background: url(icon-spin-s.png) no-repeat; animation: spin 800ms infinite linear; }
+.inner, .inner2 { position: absolute; width: 100px; height: 100px; border-radius: 100px; overflow: hidden; left: 13px; top: 13px; }
+.inner { opacity: 1; background-color: #89abdd; animation: second-half-hide 1.6s steps(1, end) infinite; }
+.inner2 { opacity: 0; background-color: #4b86db; animation: second-half-show 1.6s steps(1, end) infinite; }
+.spiner, .filler, .masker { position: absolute; width: 50%; height: 100%; }
+.spiner { border-radius: 40px 0 0 40px; background-color: #4b86db; transform-origin: right center; animation: spin 800ms infinite linear; left: 0; top: 0; }
+.filler { border-radius: 0 40px 40px 0; background-color: #4b86db; animation: second-half-hide 800ms steps(1, end) infinite; left: 50%; top: 0; opacity: 1; }
+.masker { border-radius: 40px 0 0 40px; background-color: #89abdd; animation: second-half-show 800ms steps(1, end) infinite; left: 0; top: 0; opacity: 0; }
+
+.inner2 .spiner, .inner2 .filler { background-color: #89abdd; }
+.inner2 .masker { background-color: #4b86db; }
+
+@keyframes spin {
+  0%   { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes second-half-hide {
+  0%        { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes second-half-show {
+  0%        { opacity: 0; }
+  50%, 100% { opacity: 1; }
+}
+
+
+
+circle{
+    -webkit-transition: stroke-dasharray .25s;
+    transition: stroke-dasharray .25s;
 }

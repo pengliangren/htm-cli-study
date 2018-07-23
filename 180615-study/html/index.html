@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html data-use-rem>
 <head>
   <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no" />
@@ -9,10 +9,47 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <title>首页</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script>
+
+   window.onload =function(){
+
+    (function(win){
+            let doc = win.document;
+            let html = doc.documentElement;
+            
+            let option = html.getAttribute('data-use-rem');
+            if( option === null ) return;
+
+            // 这个设计稿是以1080 的宽度设计的
+            let baseWidth = option == 'default' || option == '' || parseInt(option) <= 0 ? 1080 : parseInt(option);
+            let grids = baseWidth / 100;
+
+            let resizeEvt = 'orientationchange' in win ? 'orientationchange' : 'resize';
+            
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            
+            win.addEventListener(resizeEvt, recalc);
+            doc.addEventListener('DOMContentLoaded', recalc);
+            recalc();
+
+            function recalc() {
+                let clientWidth = html.clientWidth || 375; // default to 375 if can't get device-width
+                html.style.fontSize = clientWidth / grids + 'px';
+            }
+            
+        })(window);
+   }
+      
+  </script>
+
 </head>
 <body ontouchstart="">
   <div class="container">
-    111
+    这是一个盒子
   </div>
+  <div class="box"></div>
+
+  <div class="rem-box">这是rem盒子</div>
 </body>
 </html>
